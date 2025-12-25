@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>JeffSpace</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 /* =========================
@@ -19,219 +19,253 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at center, #06010c, #000);
-  color: #fff;
-  overflow: hidden;
+  background: radial-gradient(circle at top, #0b1220, #020409);
+  color: #eaeef3;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* =========================
-   STAR FIELD (SUBTLE)
+   BACKGROUND GLOW
 ========================= */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.4), transparent),
-    radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 80% 20%, rgba(255,255,255,0.4), transparent);
-  opacity: 0.25;
+    radial-gradient(600px 600px at 50% 35%, rgba(120,120,255,0.08), transparent),
+    radial-gradient(400px 400px at 20% 70%, rgba(255,140,90,0.06), transparent);
   pointer-events: none;
 }
 
 /* =========================
-   SYSTEM
+   LAYOUT
 ========================= */
-.system {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
 }
 
 /* =========================
-   SUN (YOU)
+   HERO
 ========================= */
-.sun {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 140px;
-  height: 140px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, #ffd8a8, #ff9f1c);
-  box-shadow: 0 0 70px rgba(255,170,90,0.7);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.hero {
   text-align: center;
-  animation: breathe 6s ease-in-out infinite;
-  z-index: 10;
+  margin-bottom: 60px;
+  animation: fadeIn 1s ease forwards;
 }
 
-.sun h1 {
-  font-size: 1.25rem;
+.hero h1 {
+  font-size: 2.2rem;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-.sun p {
-  font-size: 0.7rem;
-  opacity: 0.75;
-  margin-top: 2px;
+.hero p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.hero span {
+  display: block;
+  margin-top: 18px;
+  font-size: 0.85rem;
+  opacity: 0.6;
 }
 
 /* =========================
-   ORBITS
+   ORBITAL GRID
 ========================= */
 .orbit {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border: 1px dashed rgba(255,255,255,0.06);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  animation: fadeUp 1.2s ease forwards;
 }
 
-.orbit.one   { width: 280px; height: 280px; animation: rotate 30s linear infinite; }
-.orbit.two   { width: 420px; height: 420px; animation: rotate 42s linear infinite reverse; }
-.orbit.three { width: 560px; height: 560px; animation: rotate 54s linear infinite; }
-.orbit.four  { width: 700px; height: 700px; animation: rotate 66s linear infinite reverse; }
-
 /* =========================
-   PLANETS
+   CARDS
 ========================= */
-.planet {
-  position: absolute;
-  top: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+.card {
+  position: relative;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.08);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.55rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  box-shadow: 0 0 22px currentColor;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
 }
 
-.planet:hover {
-  transform: translateX(-50%) scale(1.08);
-  box-shadow: 0 0 40px currentColor;
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+  border-color: rgba(255,255,255,0.18);
 }
 
-.jarvis     { background: #8f6bff; color: #c7b6ff; }
-.studify    { background: #4db5ff; color: #9fd7ff; }
-.conceptly  { background: #3ad17a; color: #9affc6; }
-.socialify  { background: #ff9b54; color: #ffd2ad; }
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
 
 /* =========================
-   QUOTE BAR
+   CARD CONTENT
+========================= */
+.card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card p {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+.card .open {
+  margin-top: 14px;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  opacity: 0.6;
+}
+
+/* =========================
+   CARD THEMES
+========================= */
+.jarvis::after {
+  background: radial-gradient(circle at top, rgba(155,100,255,0.25), transparent 70%);
+}
+
+.studify::after {
+  background: radial-gradient(circle at top, rgba(90,170,255,0.25), transparent 70%);
+}
+
+.conceptly::after {
+  background: radial-gradient(circle at top, rgba(70,220,150,0.25), transparent 70%);
+}
+
+.socialify::after {
+  background: radial-gradient(circle at top, rgba(255,160,90,0.25), transparent 70%);
+}
+
+/* =========================
+   QUOTE
 ========================= */
 .quote {
-  position: fixed;
-  bottom: 22px;
-  width: 100%;
+  margin-top: 70px;
   text-align: center;
-  font-size: 0.8rem;
-  letter-spacing: 0.4px;
+  font-size: 0.9rem;
   opacity: 0;
-  transition: opacity 1.5s ease;
-  pointer-events: none;
+  transition: opacity 1.2s ease;
 }
 
 /* =========================
    ANIMATIONS
 ========================= */
-@keyframes rotate {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@keyframes breathe {
-  0%, 100% { box-shadow: 0 0 70px rgba(255,170,90,0.7); }
-  50% { box-shadow: 0 0 95px rgba(255,200,120,0.9); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================
    MOBILE TUNING
 ========================= */
-@media (max-width: 768px) {
-  .orbit.one { width: 200px; height: 200px; }
-  .orbit.two { width: 320px; height: 320px; }
-  .orbit.three { width: 440px; height: 440px; }
-  .orbit.four { width: 560px; height: 560px; }
+@media (max-width: 600px) {
+  .hero h1 { font-size: 1.8rem; }
+  .wrapper { padding-top: 36px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="system">
+<div class="wrapper">
 
-  <!-- YOU -->
-  <div class="sun">
+  <!-- HERO -->
+  <div class="hero">
     <h1>Jeff</h1>
     <p>Builder of AI Worlds</p>
+    <span>Explore my creations</span>
   </div>
 
-  <!-- ORBITS -->
-  <div class="orbit one">
-    <div class="planet jarvis" onclick="openSite('http://jarvis.jeffspace.in')">JARVIS</div>
+  <!-- ORBITAL CARDS -->
+  <div class="orbit">
+
+    <div class="card jarvis" onclick="openApp('http://jarvis.jeffspace.in')">
+      <h3>JARVIS</h3>
+      <p>AI assistant for conversation, images, and ideas.</p>
+      <div class="open">Open →</div>
+    </div>
+
+    <div class="card studify" onclick="openApp('http://studify.jeffspace.in')">
+      <h3>Studify</h3>
+      <p>Understand any topic with clear explanations.</p>
+      <div class="open">Open →</div>
+    </div>
+
+    <div class="card conceptly" onclick="openApp('http://conceptly.jeffspace.in')">
+      <h3>Conceptly</h3>
+      <p>Generate startup, app, and content ideas.</p>
+      <div class="open">Open →</div>
+    </div>
+
+    <div class="card socialify" onclick="openApp('http://socialify.jeffspace.in')">
+      <h3>Socialify</h3>
+      <p>Create social posts that actually get read.</p>
+      <div class="open">Open →</div>
+    </div>
+
   </div>
 
-  <div class="orbit two">
-    <div class="planet studify" onclick="openSite('http://studify.jeffspace.in')">STUDIFY</div>
-  </div>
-
-  <div class="orbit three">
-    <div class="planet conceptly" onclick="openSite('http://conceptly.jeffspace.in')">CONCEPTLY</div>
-  </div>
-
-  <div class="orbit four">
-    <div class="planet socialify" onclick="openSite('http://socialify.jeffspace.in')">SOCIALIFY</div>
-  </div>
+  <!-- QUOTE -->
+  <div class="quote" id="quote"></div>
 
 </div>
 
-<div class="quote" id="quote"></div>
-
 <script>
-function openSite(url) {
+function openApp(url) {
   window.open(url, "_blank");
 }
 
-/* =========================
-   QUOTE ROTATION (CALM)
-========================= */
+/* Quote rotation */
 const quotes = [
   "I build systems, not just software.",
   "Quietly building what lasts.",
-  "Creation is my constant.",
-  "Ideas are universes waiting to exist.",
-  "Everything here started as a thought."
+  "Ideas turn into worlds here.",
+  "Creation is my constant."
 ];
 
-let index = 0;
-const quoteEl = document.getElementById("quote");
+let i = 0;
+const q = document.getElementById("quote");
 
-function showQuote() {
-  quoteEl.style.opacity = 0;
+function rotateQuote() {
+  q.style.opacity = 0;
   setTimeout(() => {
-    quoteEl.textContent = `“${quotes[index]}”`;
-    quoteEl.style.opacity = 0.75;
-    index = (index + 1) % quotes.length;
-  }, 1500);
+    q.textContent = `“${quotes[i]}”`;
+    q.style.opacity = 0.7;
+    i = (i + 1) % quotes.length;
+  }, 1000);
 }
 
-showQuote();
-setInterval(showQuote, 12000);
+rotateQuote();
+setInterval(rotateQuote, 10000);
 </script>
 
 </body>

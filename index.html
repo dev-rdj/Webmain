@@ -23,11 +23,10 @@ body {
   color: #eaeef3;
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background 0.8s ease;
 }
 
-/* =========================
-   BACKGROUND GLOW
-========================= */
+/* Ambient glow */
 body::before {
   content: "";
   position: fixed;
@@ -36,6 +35,15 @@ body::before {
     radial-gradient(600px 600px at 50% 35%, rgba(120,120,255,0.08), transparent),
     radial-gradient(400px 400px at 20% 70%, rgba(255,140,90,0.06), transparent);
   pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+/* Focus mode */
+body.focus {
+  background: radial-gradient(circle at top, #05070f, #000);
+}
+body.focus::before {
+  opacity: 0.15;
 }
 
 /* =========================
@@ -59,11 +67,10 @@ body::before {
 .hero h1 {
   font-size: 2.2rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
 }
 
 .hero p {
-  margin-top: 8px;
+  margin-top: 6px;
   font-size: 0.95rem;
   opacity: 0.7;
 }
@@ -76,10 +83,9 @@ body::before {
 }
 
 /* =========================
-   ORBITAL GRID
+   GRID
 ========================= */
-.orbit {
-  position: relative;
+.grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
@@ -97,31 +103,15 @@ body::before {
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255,255,255,0.08);
   cursor: pointer;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+  transform-style: preserve-3d;
 }
 
 .card:hover {
-  transform: translateY(-6px);
   box-shadow: 0 18px 60px rgba(0,0,0,0.45);
   border-color: rgba(255,255,255,0.18);
 }
 
-.card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.card:hover::after {
-  opacity: 1;
-}
-
-/* =========================
-   CARD CONTENT
-========================= */
 .card h3 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -141,21 +131,29 @@ body::before {
   opacity: 0.6;
 }
 
-/* =========================
-   CARD THEMES
-========================= */
+/* Card glow */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
 .jarvis::after {
   background: radial-gradient(circle at top, rgba(155,100,255,0.25), transparent 70%);
 }
-
 .studify::after {
   background: radial-gradient(circle at top, rgba(90,170,255,0.25), transparent 70%);
 }
-
 .conceptly::after {
   background: radial-gradient(circle at top, rgba(70,220,150,0.25), transparent 70%);
 }
-
 .socialify::after {
   background: radial-gradient(circle at top, rgba(255,160,90,0.25), transparent 70%);
 }
@@ -166,9 +164,13 @@ body::before {
 .quote {
   margin-top: 70px;
   text-align: center;
-  font-size: 0.9rem;
-  opacity: 0;
-  transition: opacity 1.2s ease;
+  font-size: 0.95rem;
+  opacity: 0.75;
+  transition: opacity 0.6s ease;
+}
+
+body.focus .quote {
+  opacity: 0.95;
 }
 
 /* =========================
@@ -180,16 +182,15 @@ body::before {
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================
-   MOBILE TUNING
+   MOBILE
 ========================= */
 @media (max-width: 600px) {
   .hero h1 { font-size: 1.8rem; }
-  .wrapper { padding-top: 36px; }
 }
 </style>
 </head>
@@ -201,32 +202,32 @@ body::before {
   <!-- HERO -->
   <div class="hero">
     <h1>Jeff</h1>
-    <p>Builder of AI Worlds</p>
+    <p id="greeting">Builder of AI Worlds</p>
     <span>Explore my creations</span>
   </div>
 
-  <!-- ORBITAL CARDS -->
-  <div class="orbit">
+  <!-- GRID -->
+  <div class="grid">
 
-    <div class="card jarvis" onclick="openApp('http://jarvis.jeffspace.in')">
+    <div class="card jarvis" data-url="http://jarvis.jeffspace.in">
       <h3>JARVIS</h3>
       <p>AI assistant for conversation, images, and ideas.</p>
       <div class="open">Open →</div>
     </div>
 
-    <div class="card studify" onclick="openApp('http://studify.jeffspace.in')">
+    <div class="card studify" data-url="http://studify.jeffspace.in">
       <h3>Studify</h3>
       <p>Understand any topic with clear explanations.</p>
       <div class="open">Open →</div>
     </div>
 
-    <div class="card conceptly" onclick="openApp('http://conceptly.jeffspace.in')">
+    <div class="card conceptly" data-url="http://conceptly.jeffspace.in">
       <h3>Conceptly</h3>
       <p>Generate startup, app, and content ideas.</p>
       <div class="open">Open →</div>
     </div>
 
-    <div class="card socialify" onclick="openApp('http://socialify.jeffspace.in')">
+    <div class="card socialify" data-url="http://socialify.jeffspace.in">
       <h3>Socialify</h3>
       <p>Create social posts that actually get read.</p>
       <div class="open">Open →</div>
@@ -235,37 +236,58 @@ body::before {
   </div>
 
   <!-- QUOTE -->
-  <div class="quote" id="quote"></div>
+  <div class="quote">
+    “I don’t build projects. I build systems that grow.”
+  </div>
 
 </div>
 
 <script>
-function openApp(url) {
-  window.open(url, "_blank");
-}
+/* =========================
+   OPEN LINKS
+========================= */
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("click", () => {
+    window.open(card.dataset.url, "_blank");
+  });
+});
 
-/* Quote rotation */
-const quotes = [
-  "I build systems, not just software.",
-  "Quietly building what lasts.",
-  "Ideas turn into worlds here.",
-  "Creation is my constant."
-];
+/* =========================
+   TIME-BASED GREETING
+========================= */
+const greeting = document.getElementById("greeting");
+const hour = new Date().getHours();
 
-let i = 0;
-const q = document.getElementById("quote");
+if (hour < 12) greeting.textContent = "Good morning — Builder of AI Worlds";
+else if (hour < 18) greeting.textContent = "Good afternoon — Builder of AI Worlds";
+else greeting.textContent = "Good evening — Builder of AI Worlds";
 
-function rotateQuote() {
-  q.style.opacity = 0;
-  setTimeout(() => {
-    q.textContent = `“${quotes[i]}”`;
-    q.style.opacity = 0.7;
-    i = (i + 1) % quotes.length;
-  }, 1000);
-}
+/* =========================
+   MAGNETIC CARD EFFECT
+========================= */
+document.querySelectorAll(".card").forEach(card => {
+  card.addEventListener("mousemove", e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    card.style.transform = `translate(${x * 0.04}px, ${y * 0.04}px)`;
+  });
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "translate(0,0)";
+  });
+});
 
-rotateQuote();
-setInterval(rotateQuote, 10000);
+/* =========================
+   FOCUS MODE (EASTER EGG)
+========================= */
+document.addEventListener("keydown", e => {
+  if (e.key.toLowerCase() === "f") {
+    document.body.classList.toggle("focus");
+  }
+  if (e.key === "Escape") {
+    document.body.classList.remove("focus");
+  }
+});
 </script>
 
 </body>

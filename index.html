@@ -5,9 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>JeffSpace</title>
 
+<meta name="theme-color" content="#0a0118" />
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<!-- PWA MANIFEST (INLINE) -->
+<link rel="manifest" id="manifest">
+
 <style>
+/* =========================
+   THEME VARIABLES
+========================= */
 :root {
   --bg: #0a0118;
   --card: rgba(255,255,255,0.05);
@@ -17,240 +25,303 @@
   --muted: #a0aec0;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.light {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --accent: #7c3aed;
+  --text: #0f172a;
+  --muted: #475569;
 }
+
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   font-family: Inter, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
+  transition: background .4s, color .4s;
+  overflow-x: hidden;
 }
 
+/* Ambient background */
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
+  content:"";
+  position:fixed;
+  inset:0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(76,29,149,0.25), transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(139,92,246,0.2), transparent 50%);
-  z-index: -1;
+    radial-gradient(circle at 20% 30%, rgba(139,92,246,0.25), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(76,29,149,0.2), transparent 50%);
+  background-size:200% 200%;
+  animation: drift 40s ease infinite;
+  z-index:-1;
 }
 
-.container {
-  width: 100%;
-  max-width: 520px;
-  padding: 28px 20px 60px;
+@keyframes drift {
+  0% { background-position:0% 0%; }
+  50% { background-position:100% 100%; }
+  100% { background-position:0% 0%; }
 }
 
 /* =========================
-   BRAND HEADER
+   LOADER (FIRST VISIT ONLY)
 ========================= */
+#loader {
+  position:fixed;
+  inset:0;
+  background:#070010;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:9999;
+}
+
+#loader.hidden { display:none; }
+
+.loader-title {
+  font-size:1.9rem;
+  font-weight:700;
+}
+
+.loader-sub {
+  margin-top:8px;
+  font-size:.95rem;
+  color:var(--muted);
+}
+
+.loader-status {
+  margin-top:20px;
+  font-size:.85rem;
+  color:var(--muted);
+}
+
+.dots::after {
+  content:"";
+  animation:dots 1.5s infinite;
+}
+
+@keyframes dots {
+  0%{content:"";}
+  33%{content:".";}
+  66%{content:"..";}
+  100%{content:"...";}
+}
+
+/* =========================
+   APP
+========================= */
+.container {
+  max-width:520px;
+  margin:auto;
+  padding:28px 20px 60px;
+}
+
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
 }
 
 .logo {
-  font-weight: 600;
-  font-size: 1.2rem;
-  letter-spacing: 1px;
+  font-weight:600;
+  letter-spacing:1px;
 }
 
-.logo span {
-  color: var(--accent);
+.logo span { color:var(--accent); }
+
+/* Theme toggle */
+.toggle {
+  font-size:.8rem;
+  cursor:pointer;
+  opacity:.7;
 }
 
-/* =========================
-   HERO
-========================= */
-header {
-  margin-bottom: 32px;
-}
-
+/* HERO */
 header h1 {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size:2rem;
+  font-weight:700;
 }
 
 header p {
-  margin-top: 6px;
-  color: var(--muted);
-  font-size: 0.95rem;
+  margin-top:6px;
+  color:var(--muted);
 }
 
-/* =========================
-   LABELS
-========================= */
+/* LABEL */
 .label {
-  margin: 26px 0 14px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--muted);
+  margin:26px 0 14px;
+  font-size:.85rem;
+  font-weight:600;
+  color:var(--muted);
 }
 
-/* =========================
-   SHORTCUTS
-========================= */
+/* SHORTCUTS */
 .shortcuts {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
 .shortcut {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 14px;
-  border-radius: 14px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:14px;
+  cursor:pointer;
+  transition:.2s;
 }
 
 .shortcut:hover {
-  border-color: var(--accent);
-  background: rgba(139,92,246,0.1);
+  border-color:var(--accent);
 }
 
-/* =========================
-   CARDS
-========================= */
+/* CARDS */
 .grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
 }
 
 .card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 20px;
-  cursor: pointer;
-  transition: all 0.25s ease;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  cursor:pointer;
+  transition:.25s;
 }
 
 .card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 0 18px rgba(139,92,246,0.35);
+  border-color:var(--accent);
+  transform:translateY(-2px);
 }
 
-.card h3 {
-  font-size: 1.1rem;
-  margin-bottom: 6px;
-}
-
-.card p {
-  font-size: 0.9rem;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-/* =========================
-   CTA
-========================= */
+/* CTA */
 .cta {
-  margin-top: 40px;
-  background: var(--accent);
-  color: #fff;
-  text-align: center;
-  padding: 16px;
-  border-radius: 28px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  margin-top:40px;
+  background:var(--accent);
+  padding:16px;
+  border-radius:28px;
+  text-align:center;
+  font-weight:600;
+  cursor:pointer;
 }
 
-.cta:hover {
-  transform: translateY(-2px);
-  opacity: 0.95;
-}
-
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 footer {
-  margin-top: 40px;
-  font-size: 0.75rem;
-  color: var(--muted);
-  text-align: center;
+  margin-top:40px;
+  text-align:center;
+  font-size:.75rem;
+  color:var(--muted);
 }
 </style>
 </head>
 
 <body>
 
+<!-- FIRST VISIT LOADER -->
+<div id="loader">
+  <div class="loader-title">Welcome to the world of AI</div>
+  <div class="loader-sub">Created by Jeff ❤️</div>
+  <div class="loader-status">
+    Opening your one-stop destination for all AI works<span class="dots"></span>
+  </div>
+</div>
+
 <div class="container">
 
-  <!-- BRAND -->
   <div class="brand">
     <div class="logo">JS<span>•</span></div>
-    <div class="logo-text">Made by Jeff❤️</div>
+    <div class="toggle" onclick="toggleTheme()">Toggle theme</div>
   </div>
 
-  <!-- HERO -->
   <header>
     <h1>Jeff Space</h1>
     <p>Explore my AI tools</p>
   </header>
 
-  <!-- SHORTCUTS -->
   <div class="label">Shortcuts</div>
   <div class="shortcuts">
-    <div class="shortcut" onclick="openLink('https://jarvis.jeffspace.in')">Open JARVIS</div>
-    <div class="shortcut" onclick="openLink('https://conceptly.jeffspace.in')">Idea Generator</div>
-    <div class="shortcut" onclick="openLink('https://studify.jeffspace.in')">Study Helper</div>
-    <div class="shortcut" onclick="openLink('https://socialify.jeffspace.in')">Social Content</div>
+    <div class="shortcut" onclick="go('https://jarvis.jeffspace.in')">Open JARVIS</div>
+    <div class="shortcut" onclick="go('https://conceptly.jeffspace.in')">Idea Generator</div>
+    <div class="shortcut" onclick="go('https://studify.jeffspace.in')">Study Helper</div>
+    <div class="shortcut" onclick="go('https://socialify.jeffspace.in')">Social Content</div>
   </div>
 
-  <!-- PRODUCTS -->
   <div class="label">AI Products</div>
   <div class="grid">
-    <div class="card" onclick="openLink('https://jarvis.jeffspace.in')">
-      <h3>JARVIS</h3>
-      <p>Your personal AI assistant for chat, images.</p>
-    </div>
-
-    <div class="card" onclick="openLink('https://studify.jeffspace.in')">
-      <h3>Studify</h3>
-      <p>Learn complex topics with simple explanations.</p>
-    </div>
-
-    <div class="card" onclick="openLink('https://conceptly.jeffspace.in')">
-      <h3>Conceptly</h3>
-      <p>Generate startup ideas and creative concepts.</p>
-    </div>
-
-    <div class="card" onclick="openLink('https://socialify.jeffspace.in')">
-      <h3>Socialify</h3>
-      <p>Create high-engagement social media content.</p>
-    </div>
+    <div class="card" onclick="go('https://jarvis.jeffspace.in')">JARVIS</div>
+    <div class="card" onclick="go('https://studify.jeffspace.in')">Studify</div>
+    <div class="card" onclick="go('https://conceptly.jeffspace.in')">Conceptly</div>
+    <div class="card" onclick="go('https://socialify.jeffspace.in')">Socialify</div>
   </div>
 
-  <!-- CTA -->
-  <div class="cta" onclick="openLink('https://jarvis.jeffspace.in')">
+  <div class="cta" onclick="go('https://jarvis.jeffspace.in')">
     Open JARVIS
   </div>
 
-  <footer>
-    © jeffspace.in · 2020/26
-  </footer>
-
+  <footer>© jeffspace.in · 2020/26</footer>
 </div>
 
 <script>
-function openLink(url) {
+/* ---------- First visit loader ---------- */
+if (localStorage.getItem("visited")) {
+  document.getElementById("loader").classList.add("hidden");
+} else {
+  setTimeout(() => {
+    document.getElementById("loader").classList.add("hidden");
+    localStorage.setItem("visited", "true");
+  }, 4000);
+}
+
+/* ---------- Theme toggle ---------- */
+function toggleTheme() {
+  document.body.classList.toggle("light");
+  localStorage.setItem("theme",
+    document.body.classList.contains("light") ? "light" : "dark"
+  );
+}
+
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.add("light");
+}
+
+/* ---------- Navigation ---------- */
+function go(url) {
   window.open(url, "_blank");
 }
+
+/* ---------- Animated favicon ---------- */
+let on = false;
+setInterval(() => {
+  const color = on ? "%238b5cf6" : "%23ffffff";
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+    <text x='50%' y='55%' text-anchor='middle' font-size='60' fill='${color}' font-family='Inter'>JS</text>
+  </svg>`;
+  let link = document.querySelector("link[rel='icon']") || document.createElement("link");
+  link.rel = "icon";
+  link.href = "data:image/svg+xml," + svg;
+  document.head.appendChild(link);
+  on = !on;
+}, 1200);
+
+/* ---------- PWA manifest ---------- */
+const manifest = {
+  name: "JeffSpace",
+  short_name: "JeffSpace",
+  start_url: ".",
+  display: "standalone",
+  background_color: "#0a0118",
+  theme_color: "#0a0118",
+  icons: []
+};
+document.getElementById("manifest").href =
+  "data:application/json," + encodeURIComponent(JSON.stringify(manifest));
 </script>
 
 </body>

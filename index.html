@@ -114,8 +114,6 @@ header p{color:var(--muted)}
   color:var(--muted);
 }
 
-.big{font-size:2.4rem;font-weight:700}
-
 /* CTA */
 .cta{
   margin-top:40px;
@@ -138,7 +136,7 @@ footer{
 
 <body>
 
-<!-- FIRST VISIT LOADER -->
+<!-- LOADER -->
 <div id="loader">
   <h2>Welcome to the world of AI</h2>
   <p>Created by Jeff ❤️</p>
@@ -179,7 +177,7 @@ footer{
 
     <div class="card" onclick="go('https://musicify.jeffspace.in')">
       🎧 Musicify
-      <p>Spotify-style music player</p>
+      <p>Spotify-style music experience</p>
     </div>
 
     <div class="card" onclick="go('https://studify.jeffspace.in')">
@@ -198,31 +196,6 @@ footer{
     </div>
   </div>
 
-  <!-- ENVIRONMENT -->
-  <div class="label">Environment</div>
-
-  <div class="card">
-    <h3>📍 Location</h3>
-    <p id="location">Detecting…</p>
-  </div>
-
-  <div class="card">
-    <h3>🌤 Weather</h3>
-    <div class="big" id="temp">--°C</div>
-    <p id="weather">Loading weather…</p>
-  </div>
-
-  <div class="card">
-    <h3>🫁 Air Quality</h3>
-    <div class="big" id="aqi">--</div>
-    <p id="aqiStatus">Loading AQI…</p>
-  </div>
-
-  <div class="card">
-    <h3>🧠 Health Advice</h3>
-    <p id="advice">Analyzing environment…</p>
-  </div>
-
   <!-- CTA -->
   <div class="cta" onclick="go('https://jarvis.jeffspace.in')">
     Open JARVIS
@@ -234,10 +207,10 @@ footer{
 <script>
 /* LOADER */
 if(localStorage.getItem("visited")){
-  document.getElementById("loader").classList.add("hidden");
+  loader.classList.add("hidden");
 }else{
   setTimeout(()=>{
-    document.getElementById("loader").classList.add("hidden");
+    loader.classList.add("hidden");
     localStorage.setItem("visited","true");
   },4000);
 }
@@ -254,44 +227,6 @@ if(localStorage.getItem("theme")==="light"){
 
 /* NAV */
 function go(url){window.open(url,"_blank");}
-
-/* ENVIRONMENT */
-navigator.geolocation.getCurrentPosition(pos=>{
-  const lat=pos.coords.latitude;
-  const lon=pos.coords.longitude;
-  location.textContent=`Lat ${lat.toFixed(2)}, Lon ${lon.toFixed(2)}`;
-  loadWeather(lat,lon);
-  loadAQI(lat,lon);
-});
-
-async function loadWeather(lat,lon){
-  const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-  const d=await r.json();
-  temp.textContent=d.current_weather.temperature+"°C";
-  weather.textContent="Wind: "+d.current_weather.windspeed+" km/h";
-}
-
-async function loadAQI(lat,lon){
-  try{
-    const r=await fetch(`https://api.openaq.org/v2/latest?coordinates=${lat},${lon}&radius=10000&limit=1`);
-    const d=await r.json();
-    const pm=d.results[0].measurements.find(m=>m.parameter==="pm25").value;
-    const a=Math.round(pm*4);
-    aqi.textContent=a;
-
-    let s,a2;
-    if(a<=50){s="Good 😊";a2="Perfect for outdoor activity.";}
-    else if(a<=100){s="Moderate 🙂";a2="Sensitive people take care.";}
-    else if(a<=150){s="Unhealthy 😷";a2="Avoid long outdoor activity.";}
-    else{s="Poor ☠️";a2="Stay indoors if possible.";}
-
-    aqiStatus.textContent=s;
-    advice.textContent=a2;
-  }catch{
-    aqiStatus.textContent="Unavailable";
-    advice.textContent="Unable to fetch AQI.";
-  }
-}
 </script>
 
 </body>

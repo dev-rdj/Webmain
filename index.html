@@ -14,12 +14,12 @@
   --card:rgba(255,255,255,0.05);
   --border:rgba(255,255,255,0.1);
   --accent:#8b5cf6;
-  --text:#fff;
+  --text:#ffffff;
   --muted:#a0aec0;
 }
 .light {
   --bg:#f6f7fb;
-  --card:#fff;
+  --card:#ffffff;
   --border:#e5e7eb;
   --accent:#7c3aed;
   --text:#0f172a;
@@ -31,6 +31,7 @@ body{
   background:var(--bg);
   color:var(--text);
   min-height:100vh;
+  transition:.3s;
 }
 body::before{
   content:"";
@@ -41,6 +42,8 @@ body::before{
     radial-gradient(circle at 80% 70%, rgba(76,29,149,.2), transparent 50%);
   z-index:-1;
 }
+
+/* Loader */
 #loader{
   position:fixed;
   inset:0;
@@ -49,25 +52,64 @@ body::before{
   flex-direction:column;
   justify-content:center;
   align-items:center;
+  text-align:center;
   z-index:9999;
 }
 #loader.hidden{display:none}
 .dots::after{content:"";animation:dots 1.5s infinite}
-@keyframes dots{0%{content:""}33%{content:"."}66%{content:".."}100%{content:"..."}}
+@keyframes dots{
+  0%{content:""}
+  33%{content:"."}
+  66%{content:".."}
+  100%{content:"..."}
+}
+
+/* Layout */
 .container{max-width:520px;margin:auto;padding:28px 20px 60px}
-.brand{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.brand{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
+}
 .logo span{color:var(--accent)}
 .toggle{font-size:.8rem;cursor:pointer;opacity:.7}
-.label{margin:26px 0 14px;font-size:.85rem;font-weight:600;color:var(--muted)}
-.shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.shortcut,.card{
+
+header h1{font-size:2rem;font-weight:700}
+header p{color:var(--muted)}
+
+.label{
+  margin:26px 0 14px;
+  font-size:.85rem;
+  font-weight:600;
+  color:var(--muted);
+}
+
+/* Shortcuts */
+.shortcuts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.shortcut{
   background:var(--card);
   border:1px solid var(--border);
   padding:14px;
   border-radius:14px;
+  cursor:pointer;
 }
-.card{margin-bottom:14px}
+
+/* Cards */
+.grid{display:flex;flex-direction:column;gap:16px}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+}
 .big{font-size:2.4rem;font-weight:700}
+
+/* CTA */
 .cta{
   margin-top:40px;
   background:var(--accent);
@@ -77,12 +119,19 @@ body::before{
   font-weight:600;
   cursor:pointer;
 }
-footer{text-align:center;font-size:.75rem;color:var(--muted);margin-top:40px}
+
+footer{
+  margin-top:40px;
+  text-align:center;
+  font-size:.75rem;
+  color:var(--muted);
+}
 </style>
 </head>
 
 <body>
 
+<!-- LOADER -->
 <div id="loader">
   <h2>Welcome to the world of AI</h2>
   <p>Created by Jeff ❤️</p>
@@ -91,14 +140,37 @@ footer{text-align:center;font-size:.75rem;color:var(--muted);margin-top:40px}
 
 <div class="container">
 
+  <!-- BRAND -->
   <div class="brand">
     <div class="logo">JS<span>•</span> Made by Jeff ❤️</div>
     <div class="toggle" onclick="toggleTheme()">Toggle theme</div>
   </div>
 
-  <h1>Jeff Space</h1>
-  <p style="color:var(--muted)">Explore my AI tools</p>
+  <!-- HERO -->
+  <header>
+    <h1>Jeff Space</h1>
+    <p>Explore my AI tools</p>
+  </header>
 
+  <!-- SHORTCUTS -->
+  <div class="label">Shortcuts</div>
+  <div class="shortcuts">
+    <div class="shortcut" onclick="go('https://jarvis.jeffspace.in')">Open JARVIS</div>
+    <div class="shortcut" onclick="go('https://conceptly.jeffspace.in')">Idea Generator</div>
+    <div class="shortcut" onclick="go('https://studify.jeffspace.in')">Study Helper</div>
+    <div class="shortcut" onclick="go('https://socialify.jeffspace.in')">Social Content</div>
+  </div>
+
+  <!-- AI PRODUCTS -->
+  <div class="label">AI Products</div>
+  <div class="grid">
+    <div class="card" onclick="go('https://jarvis.jeffspace.in')">🤖 JARVIS</div>
+    <div class="card" onclick="go('https://studify.jeffspace.in')">📚 Studify</div>
+    <div class="card" onclick="go('https://conceptly.jeffspace.in')">💡 Conceptly</div>
+    <div class="card" onclick="go('https://socialify.jeffspace.in')">📣 Socialify</div>
+  </div>
+
+  <!-- ENVIRONMENT -->
   <div class="label">Environment</div>
 
   <div class="card">
@@ -109,7 +181,7 @@ footer{text-align:center;font-size:.75rem;color:var(--muted);margin-top:40px}
   <div class="card">
     <h3>🌤 Weather</h3>
     <div class="big" id="temp">--°C</div>
-    <p id="weather">Loading…</p>
+    <p id="weather">Loading weather…</p>
   </div>
 
   <div class="card">
@@ -123,7 +195,11 @@ footer{text-align:center;font-size:.75rem;color:var(--muted);margin-top:40px}
     <p id="advice">Analyzing environment…</p>
   </div>
 
-  <div class="cta" onclick="window.open('https://jarvis.jeffspace.in')">Open JARVIS</div>
+  <!-- CTA -->
+  <div class="cta" onclick="go('https://jarvis.jeffspace.in')">
+    Open JARVIS
+  </div>
+
   <footer>© jeffspace.in · 2020/26</footer>
 
 </div>
@@ -149,13 +225,15 @@ if(localStorage.getItem("theme")==="light"){
   document.body.classList.add("light");
 }
 
+/* Nav */
+function go(url){window.open(url,"_blank");}
+
 /* Location + Weather + AQI */
 navigator.geolocation.getCurrentPosition(pos=>{
   const lat = pos.coords.latitude;
   const lon = pos.coords.longitude;
   document.getElementById("location").textContent =
     `Lat ${lat.toFixed(2)}, Lon ${lon.toFixed(2)}`;
-
   loadWeather(lat,lon);
   loadAQI(lat,lon);
 });

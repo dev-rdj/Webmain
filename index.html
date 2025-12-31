@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
+:root{
   --bg:#0a0118;
   --card:rgba(255,255,255,0.05);
   --border:rgba(255,255,255,0.1);
@@ -17,7 +17,7 @@
   --text:#ffffff;
   --muted:#a0aec0;
 }
-.light {
+.light{
   --bg:#f6f7fb;
   --card:#ffffff;
   --border:#e5e7eb;
@@ -43,7 +43,7 @@ body::before{
   z-index:-1;
 }
 
-/* Loader */
+/* LOADER */
 #loader{
   position:fixed;
   inset:0;
@@ -64,7 +64,7 @@ body::before{
   100%{content:"..."}
 }
 
-/* Layout */
+/* LAYOUT */
 .container{max-width:520px;margin:auto;padding:28px 20px 60px}
 .brand{
   display:flex;
@@ -85,7 +85,7 @@ header p{color:var(--muted)}
   color:var(--muted);
 }
 
-/* Shortcuts */
+/* SHORTCUTS */
 .shortcuts{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -99,14 +99,21 @@ header p{color:var(--muted)}
   cursor:pointer;
 }
 
-/* Cards */
+/* CARDS */
 .grid{display:flex;flex-direction:column;gap:16px}
 .card{
   background:var(--card);
   border:1px solid var(--border);
   border-radius:20px;
   padding:20px;
+  cursor:pointer;
 }
+.card p{
+  margin-top:6px;
+  font-size:.85rem;
+  color:var(--muted);
+}
+
 .big{font-size:2.4rem;font-weight:700}
 
 /* CTA */
@@ -131,7 +138,7 @@ footer{
 
 <body>
 
-<!-- LOADER -->
+<!-- FIRST VISIT LOADER -->
 <div id="loader">
   <h2>Welcome to the world of AI</h2>
   <p>Created by Jeff ❤️</p>
@@ -149,25 +156,46 @@ footer{
   <!-- HERO -->
   <header>
     <h1>Jeff Space</h1>
-    <p>Explore my AI tools</p>
+    <p>AI • Music • Creativity — built by Jeff</p>
   </header>
 
   <!-- SHORTCUTS -->
   <div class="label">Shortcuts</div>
   <div class="shortcuts">
-    <div class="shortcut" onclick="go('https://jarvis.jeffspace.in')">Open JARVIS</div>
-    <div class="shortcut" onclick="go('https://conceptly.jeffspace.in')">Idea Generator</div>
-    <div class="shortcut" onclick="go('https://studify.jeffspace.in')">Study Helper</div>
-    <div class="shortcut" onclick="go('https://socialify.jeffspace.in')">Social Content</div>
+    <div class="shortcut" onclick="go('https://jarvis.jeffspace.in')">🤖 JARVIS</div>
+    <div class="shortcut" onclick="go('https://musicify.jeffspace.in')">🎧 Musicify</div>
+    <div class="shortcut" onclick="go('https://conceptly.jeffspace.in')">💡 Conceptly</div>
+    <div class="shortcut" onclick="go('https://studify.jeffspace.in')">📚 Studify</div>
+    <div class="shortcut" onclick="go('https://socialify.jeffspace.in')">📣 Socialify</div>
   </div>
 
-  <!-- AI PRODUCTS -->
-  <div class="label">AI Products</div>
+  <!-- PRODUCTS -->
+  <div class="label">Products</div>
   <div class="grid">
-    <div class="card" onclick="go('https://jarvis.jeffspace.in')">🤖 JARVIS</div>
-    <div class="card" onclick="go('https://studify.jeffspace.in')">📚 Studify</div>
-    <div class="card" onclick="go('https://conceptly.jeffspace.in')">💡 Conceptly</div>
-    <div class="card" onclick="go('https://socialify.jeffspace.in')">📣 Socialify</div>
+    <div class="card" onclick="go('https://jarvis.jeffspace.in')">
+      🤖 JARVIS
+      <p>Your personal AI assistant</p>
+    </div>
+
+    <div class="card" onclick="go('https://musicify.jeffspace.in')">
+      🎧 Musicify
+      <p>Spotify-style music player</p>
+    </div>
+
+    <div class="card" onclick="go('https://studify.jeffspace.in')">
+      📚 Studify
+      <p>Learn complex topics simply</p>
+    </div>
+
+    <div class="card" onclick="go('https://conceptly.jeffspace.in')">
+      💡 Conceptly
+      <p>AI idea generator</p>
+    </div>
+
+    <div class="card" onclick="go('https://socialify.jeffspace.in')">
+      📣 Socialify
+      <p>Create social media content</p>
+    </div>
   </div>
 
   <!-- ENVIRONMENT -->
@@ -200,12 +228,11 @@ footer{
     Open JARVIS
   </div>
 
-  <footer>© jeffspace.in · 2020/26</footer>
-
+  <footer>© jeffspace.in · 2020–2026</footer>
 </div>
 
 <script>
-/* Loader */
+/* LOADER */
 if(localStorage.getItem("visited")){
   document.getElementById("loader").classList.add("hidden");
 }else{
@@ -215,7 +242,7 @@ if(localStorage.getItem("visited")){
   },4000);
 }
 
-/* Theme */
+/* THEME */
 function toggleTheme(){
   document.body.classList.toggle("light");
   localStorage.setItem("theme",
@@ -225,51 +252,44 @@ if(localStorage.getItem("theme")==="light"){
   document.body.classList.add("light");
 }
 
-/* Nav */
+/* NAV */
 function go(url){window.open(url,"_blank");}
 
-/* Location + Weather + AQI */
+/* ENVIRONMENT */
 navigator.geolocation.getCurrentPosition(pos=>{
-  const lat = pos.coords.latitude;
-  const lon = pos.coords.longitude;
-  document.getElementById("location").textContent =
-    `Lat ${lat.toFixed(2)}, Lon ${lon.toFixed(2)}`;
+  const lat=pos.coords.latitude;
+  const lon=pos.coords.longitude;
+  location.textContent=`Lat ${lat.toFixed(2)}, Lon ${lon.toFixed(2)}`;
   loadWeather(lat,lon);
   loadAQI(lat,lon);
 });
 
 async function loadWeather(lat,lon){
-  const r = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
-  );
-  const d = await r.json();
-  document.getElementById("temp").textContent =
-    d.current_weather.temperature+"°C";
-  document.getElementById("weather").textContent =
-    "Wind: "+d.current_weather.windspeed+" km/h";
+  const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+  const d=await r.json();
+  temp.textContent=d.current_weather.temperature+"°C";
+  weather.textContent="Wind: "+d.current_weather.windspeed+" km/h";
 }
 
 async function loadAQI(lat,lon){
   try{
-    const r = await fetch(
-      `https://api.openaq.org/v2/latest?coordinates=${lat},${lon}&radius=10000&limit=1`
-    );
-    const d = await r.json();
-    const pm = d.results[0].measurements.find(m=>m.parameter==="pm25").value;
-    const aqi = Math.round(pm*4);
-    document.getElementById("aqi").textContent = aqi;
+    const r=await fetch(`https://api.openaq.org/v2/latest?coordinates=${lat},${lon}&radius=10000&limit=1`);
+    const d=await r.json();
+    const pm=d.results[0].measurements.find(m=>m.parameter==="pm25").value;
+    const a=Math.round(pm*4);
+    aqi.textContent=a;
 
-    let s,a;
-    if(aqi<=50){s="Good 😊";a="Perfect for outdoor activities.";}
-    else if(aqi<=100){s="Moderate 🙂";a="Sensitive people take care.";}
-    else if(aqi<=150){s="Unhealthy 😷";a="Avoid long outdoor activity.";}
-    else{s="Poor ☠️";a="Stay indoors if possible.";}
+    let s,a2;
+    if(a<=50){s="Good 😊";a2="Perfect for outdoor activity.";}
+    else if(a<=100){s="Moderate 🙂";a2="Sensitive people take care.";}
+    else if(a<=150){s="Unhealthy 😷";a2="Avoid long outdoor activity.";}
+    else{s="Poor ☠️";a2="Stay indoors if possible.";}
 
-    document.getElementById("aqiStatus").textContent=s;
-    document.getElementById("advice").textContent=a;
+    aqiStatus.textContent=s;
+    advice.textContent=a2;
   }catch{
-    document.getElementById("aqiStatus").textContent="Unavailable";
-    document.getElementById("advice").textContent="Unable to fetch AQI.";
+    aqiStatus.textContent="Unavailable";
+    advice.textContent="Unable to fetch AQI.";
   }
 }
 </script>

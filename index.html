@@ -9,13 +9,9 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- PWA MANIFEST (INLINE) -->
 <link rel="manifest" id="manifest">
 
 <style>
-/* =========================
-   THEME VARIABLES
-========================= */
 :root {
   --bg: #0a0118;
   --card: rgba(255,255,255,0.05);
@@ -34,7 +30,6 @@
   --muted: #475569;
 }
 
-/* RESET */
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
@@ -43,10 +38,8 @@ body {
   color: var(--text);
   min-height: 100vh;
   transition: background .4s, color .4s;
-  overflow-x: hidden;
 }
 
-/* Ambient background */
 body::before {
   content:"";
   position:fixed;
@@ -65,9 +58,6 @@ body::before {
   100% { background-position:0% 0%; }
 }
 
-/* =========================
-   LOADER (FIRST VISIT ONLY)
-========================= */
 #loader {
   position:fixed;
   inset:0;
@@ -82,23 +72,6 @@ body::before {
 
 #loader.hidden { display:none; }
 
-.loader-title {
-  font-size:1.9rem;
-  font-weight:700;
-}
-
-.loader-sub {
-  margin-top:8px;
-  font-size:.95rem;
-  color:var(--muted);
-}
-
-.loader-status {
-  margin-top:20px;
-  font-size:.85rem;
-  color:var(--muted);
-}
-
 .dots::after {
   content:"";
   animation:dots 1.5s infinite;
@@ -111,9 +84,6 @@ body::before {
   100%{content:"...";}
 }
 
-/* =========================
-   APP
-========================= */
 .container {
   max-width:520px;
   margin:auto;
@@ -127,32 +97,13 @@ body::before {
   margin-bottom:28px;
 }
 
-.logo {
-  font-weight:600;
-  letter-spacing:1px;
-}
-
 .logo span { color:var(--accent); }
 
-/* Theme toggle */
-.toggle {
-  font-size:.8rem;
-  cursor:pointer;
-  opacity:.7;
-}
+.toggle { font-size:.8rem; cursor:pointer; opacity:.7; }
 
-/* HERO */
-header h1 {
-  font-size:2rem;
-  font-weight:700;
-}
+header h1 { font-size:2rem; }
+header p { color:var(--muted); }
 
-header p {
-  margin-top:6px;
-  color:var(--muted);
-}
-
-/* LABEL */
 .label {
   margin:26px 0 14px;
   font-size:.85rem;
@@ -160,7 +111,6 @@ header p {
   color:var(--muted);
 }
 
-/* SHORTCUTS */
 .shortcuts {
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -173,14 +123,8 @@ header p {
   padding:14px;
   border-radius:14px;
   cursor:pointer;
-  transition:.2s;
 }
 
-.shortcut:hover {
-  border-color:var(--accent);
-}
-
-/* CARDS */
 .grid {
   display:flex;
   flex-direction:column;
@@ -192,16 +136,13 @@ header p {
   border:1px solid var(--border);
   border-radius:20px;
   padding:20px;
-  cursor:pointer;
-  transition:.25s;
 }
 
-.card:hover {
-  border-color:var(--accent);
-  transform:translateY(-2px);
+.big {
+  font-size:2.4rem;
+  font-weight:700;
 }
 
-/* CTA */
 .cta {
   margin-top:40px;
   background:var(--accent);
@@ -212,7 +153,6 @@ header p {
   cursor:pointer;
 }
 
-/* FOOTER */
 footer {
   margin-top:40px;
   text-align:center;
@@ -224,19 +164,16 @@ footer {
 
 <body>
 
-<!-- FIRST VISIT LOADER -->
 <div id="loader">
-  <div class="loader-title">Welcome to the world of AI</div>
-  <div class="loader-sub">Created by Jeff ❤️</div>
-  <div class="loader-status">
-    Opening your one-stop destination for all AI works<span class="dots"></span>
-  </div>
+  <h2>Welcome to the world of AI</h2>
+  <p>Created by Jeff ❤️</p>
+  <p>Opening your one-stop destination<span class="dots"></span></p>
 </div>
 
 <div class="container">
 
   <div class="brand">
-    <div class="logo">JS<span>•</span>Made by Jeff❤️</div>
+    <div class="logo">JS<span>•</span> Made by Jeff ❤️</div>
     <div class="toggle" onclick="toggleTheme()">Toggle theme</div>
   </div>
 
@@ -253,75 +190,92 @@ footer {
     <div class="shortcut" onclick="go('https://socialify.jeffspace.in')">Social Content</div>
   </div>
 
-  <div class="label">AI Products</div>
-  <div class="grid">
-    <div class="card" onclick="go('https://jarvis.jeffspace.in')">JARVIS</div>
-    <div class="card" onclick="go('https://studify.jeffspace.in')">Studify</div>
-    <div class="card" onclick="go('https://conceptly.jeffspace.in')">Conceptly</div>
-    <div class="card" onclick="go('https://socialify.jeffspace.in')">Socialify</div>
+  <div class="label">Environment</div>
+
+  <div class="card">
+    <h3>📍 Location</h3>
+    <p id="location">Detecting…</p>
   </div>
 
-  <div class="cta" onclick="go('https://jarvis.jeffspace.in')">
-    Open JARVIS
+  <div class="card">
+    <h3>🌤 Weather</h3>
+    <div class="big" id="temp">--°C</div>
+    <p id="weather">Loading weather…</p>
   </div>
+
+  <div class="card">
+    <h3>🫁 Air Quality</h3>
+    <div class="big" id="aqi">--</div>
+    <p id="aqiStatus">Loading AQI…</p>
+  </div>
+
+  <div class="card">
+    <h3>🧠 Health Advice</h3>
+    <p id="advice">Analyzing environment…</p>
+  </div>
+
+  <div class="cta" onclick="go('https://jarvis.jeffspace.in')">Open JARVIS</div>
 
   <footer>© jeffspace.in · 2020/26</footer>
 </div>
 
 <script>
-/* ---------- First visit loader ---------- */
+/* Loader */
 if (localStorage.getItem("visited")) {
   document.getElementById("loader").classList.add("hidden");
 } else {
   setTimeout(() => {
     document.getElementById("loader").classList.add("hidden");
-    localStorage.setItem("visited", "true");
+    localStorage.setItem("visited","true");
   }, 4000);
 }
 
-/* ---------- Theme toggle ---------- */
-function toggleTheme() {
+/* Theme */
+function toggleTheme(){
   document.body.classList.toggle("light");
-  localStorage.setItem("theme",
-    document.body.classList.contains("light") ? "light" : "dark"
-  );
+  localStorage.setItem("theme", document.body.classList.contains("light")?"light":"dark");
+}
+if(localStorage.getItem("theme")==="light"){document.body.classList.add("light");}
+
+/* Nav */
+function go(url){window.open(url,"_blank");}
+
+/* ENVIRONMENT */
+const JUHE_KEY = "517d94ba84e1670e5efe93438ffb7394";
+
+navigator.geolocation.getCurrentPosition(pos=>{
+  const lat = pos.coords.latitude;
+  const lon = pos.coords.longitude;
+  document.getElementById("location").textContent =
+    `Lat ${lat.toFixed(2)}, Lon ${lon.toFixed(2)}`;
+  loadWeather(lat,lon);
+  loadAQI();
+},()=>{
+  document.getElementById("location").textContent="Location blocked";
+});
+
+async function loadWeather(lat,lon){
+  const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+  const data = await res.json();
+  document.getElementById("temp").textContent = data.current_weather.temperature+"°C";
+  document.getElementById("weather").textContent = "Wind: "+data.current_weather.windspeed+" km/h";
 }
 
-if (localStorage.getItem("theme") === "light") {
-  document.body.classList.add("light");
+async function loadAQI(){
+  const res = await fetch(`https://apis.juhe.cn/air/query?city=Delhi&key=${JUHE_KEY}`);
+  const data = await res.json();
+  const aqi = parseInt(data.result[0].AQI);
+  document.getElementById("aqi").textContent = aqi;
+
+  let status, advice;
+  if(aqi<=50){status="Good 😊"; advice="Perfect day to be outdoors.";}
+  else if(aqi<=100){status="Moderate 🙂"; advice="Sensitive people take care.";}
+  else if(aqi<=150){status="Unhealthy 😷"; advice="Avoid long outdoor activity.";}
+  else{status="Hazardous ☠️"; advice="Stay indoors if possible.";}
+
+  document.getElementById("aqiStatus").textContent=status;
+  document.getElementById("advice").textContent=advice;
 }
-
-/* ---------- Navigation ---------- */
-function go(url) {
-  window.open(url, "_blank");
-}
-
-/* ---------- Animated favicon ---------- */
-let on = false;
-setInterval(() => {
-  const color = on ? "%238b5cf6" : "%23ffffff";
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-    <text x='50%' y='55%' text-anchor='middle' font-size='60' fill='${color}' font-family='Inter'>JS</text>
-  </svg>`;
-  let link = document.querySelector("link[rel='icon']") || document.createElement("link");
-  link.rel = "icon";
-  link.href = "data:image/svg+xml," + svg;
-  document.head.appendChild(link);
-  on = !on;
-}, 1200);
-
-/* ---------- PWA manifest ---------- */
-const manifest = {
-  name: "JeffSpace",
-  short_name: "JeffSpace",
-  start_url: ".",
-  display: "standalone",
-  background_color: "#0a0118",
-  theme_color: "#0a0118",
-  icons: []
-};
-document.getElementById("manifest").href =
-  "data:application/json," + encodeURIComponent(JSON.stringify(manifest));
 </script>
 
 </body>

@@ -1,164 +1,273 @@
-<!DOCTYPE html>  <html lang="en">    <head>    
-<meta charset="UTF-8" />    
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />    
-<title>JeffSpace</title>  <meta name="theme-color" content="#0a0118" />    
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">  <style>    
-:root{    
-  --bg:#0a0118;    
-  --card:rgba(255,255,255,0.05);    
-  --border:rgba(255,255,255,0.1);    
-  --accent:#8b5cf6;    
-  --text:#ffffff;    
-  --muted:#a0aec0;    
-}    
-.light{    
-  --bg:#f6f7fb;    
-  --card:#ffffff;    
-  --border:#e5e7eb;    
-  --accent:#7c3aed;    
-  --text:#0f172a;    
-  --muted:#475569;    
-}    
-*{margin:0;padding:0;box-sizing:border-box}    
-body{    
-  font-family:Inter,sans-serif;    
-  background:var(--bg);    
-  color:var(--text);    
-  min-height:100vh;    
-  transition:.3s;    
-}    
-body::before{    
-  content:"";    
-  position:fixed;    
-  inset:0;    
-  background:    
-    radial-gradient(circle at 20% 30%, rgba(139,92,246,.25), transparent 50%),    
-    radial-gradient(circle at 80% 70%, rgba(76,29,149,.2), transparent 50%);    
-  z-index:-1;    
-}    /* LOADER */
-#loader{
-position:fixed;
-inset:0;
-background:#070010;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-z-index:9999;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JeffSpace</title>
+
+<meta name="theme-color" content="#0a0118" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#060010;
+  --card:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.12);
+  --accent:#a855f7;
+  --accent2:#22d3ee;
+  --text:#ffffff;
+  --muted:#a1a1aa;
 }
+
+.light{
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --border:#e5e7eb;
+  --accent:#7c3aed;
+  --accent2:#0ea5e9;
+  --text:#0f172a;
+  --muted:#475569;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ANIME AURA BACKGROUND */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-40%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(168,85,247,.35), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(34,211,238,.25), transparent 50%);
+  animation:float 18s linear infinite;
+  z-index:-1;
+}
+
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-6%)}
+  100%{transform:translateY(0)}
+}
+
+/* LOADER */
+#loader{
+  position:fixed;
+  inset:0;
+  background:#04000a;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:9999;
+}
+
 #loader.hidden{display:none}
-.dots::after{content:"";animation:dots 1.5s infinite}
+
+.dots::after{
+  content:"";
+  animation:dots 1.5s infinite;
+}
+
 @keyframes dots{
-0%{content:""}
-33%{content:"."}
-66%{content:".."}
-100%{content:"..."}
+  0%{content:""}
+  33%{content:"."}
+  66%{content:".."}
+  100%{content:"..."}
 }
 
 /* LAYOUT */
-.container{max-width:520px;margin:auto;padding:28px 20px 60px}
-.brand{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:28px;
+.container{
+  max-width:520px;
+  margin:auto;
+  padding:28px 20px 60px;
 }
-.logo span{color:var(--accent)}
-.toggle{font-size:.8rem;cursor:pointer;opacity:.7}
 
-header h1{font-size:2rem;font-weight:700}
+.brand{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
+}
+
+.logo span{
+  color:var(--accent);
+  text-shadow:0 0 8px var(--accent);
+}
+
+.toggle{
+  font-size:.8rem;
+  cursor:pointer;
+  opacity:.75;
+}
+
+/* HERO */
+header h1{
+  font-size:2.2rem;
+  font-weight:700;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
 header p{color:var(--muted)}
 
+/* LABEL */
 .label{
-margin:26px 0 14px;
-font-size:.85rem;
-font-weight:600;
-color:var(--muted);
+  margin:28px 0 14px;
+  font-size:.85rem;
+  font-weight:600;
+  color:var(--muted);
+  letter-spacing:.08em;
 }
 
 /* CARDS */
-.grid{display:flex;flex-direction:column;gap:16px}
-.card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:20px;
-padding:20px;
-cursor:pointer;
+.grid{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
 }
+
+.card{
+  background:linear-gradient(180deg,var(--card),transparent);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:20px;
+  cursor:pointer;
+  transition:.35s;
+  backdrop-filter:blur(10px);
+}
+
+.card:hover{
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:
+    0 0 18px rgba(168,85,247,.35),
+    inset 0 0 12px rgba(255,255,255,.05);
+}
+
 .card p{
-margin-top:6px;
-font-size:.85rem;
-color:var(--muted);
+  margin-top:6px;
+  font-size:.85rem;
+  color:var(--muted);
 }
 
 /* CTA */
 .cta{
-margin-top:40px;
-background:var(--accent);
-padding:16px;
-border-radius:28px;
-text-align:center;
-font-weight:600;
-cursor:pointer;
+  margin-top:42px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  padding:16px;
+  border-radius:999px;
+  text-align:center;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 0 24px rgba(168,85,247,.5);
 }
 
 footer{
-margin-top:40px;
-text-align:center;
-font-size:.75rem;
-color:var(--muted);
+  margin-top:42px;
+  text-align:center;
+  font-size:.75rem;
+  color:var(--muted);
 }
-</style>  </head>  <body>  <!-- LOADER -->  <div id="loader">
+</style>
+</head>
 
-  <h2>Welcome to the world of AI</h2>    
-  <p>Created by Jeff ❤️</p>    
-  <p>Opening your one-stop destination<span class="dots"></span></p>    
-</div>  <div class="container">    <!-- BRAND -->    <div class="brand">    
-    <div class="logo">JS<span>•</span> Made by Jeff ❤️</div>    
-    <div class="toggle" onclick="toggleTheme()">Toggle theme</div>    
-  </div>    <!-- HERO -->    <header>    
-    <h1>Jeff Space</h1>    
-    <p>built by Jeff</p>    
-  </header> </div>    <!-- PRODUCTS -->    <div class="label">Products</div>    
-  <div class="grid">    
-    <div class="card" onclick="go('https://jarvis.jeffspace.in')">    
-      🤖 JARVIS    
-      <p>Your personal AI assistant</p>    
-    </div>  <div class="card" onclick="go('https://musicify.jeffspace.in')">    
-  🎧 Musicify    
-  <p>Music experience</p>    
-</div>    <div class="card" onclick="go('https://studify.jeffspace.in')">    
-  📚 Studify    
-  <p>Learn complex topics simply</p>    
-</div>    <div class="card" onclick="go('https://conceptly.jeffspace.in')">    
-  💡 Conceptly    
-  <p>AI idea generator</p>    
-</div>    <div class="card" onclick="go('https://socialify.jeffspace.in')">    
-  📣 Socialify    
-  <p>Create social media content</p>    
-</div>    </div>    <footer>© jeffspace.in · ©2020–2026</footer>    
-</div>  <script>    
-/* LOADER */    
-if(localStorage.getItem("visited")){    
-  loader.classList.add("hidden");    
-}else{    
-  setTimeout(()=>{    
-    loader.classList.add("hidden");    
-    localStorage.setItem("visited","true");    
-  },4000);    
-}    /* THEME */
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <h2>Welcome to the world of AI</h2>
+  <p>Created by Jeff ❤️</p>
+  <p>Initializing neural space<span class="dots"></span></p>
+</div>
+
+<div class="container">
+
+  <div class="brand">
+    <div class="logo">JS<span>•</span> JeffSpace</div>
+    <div class="toggle" onclick="toggleTheme()">Toggle theme</div>
+  </div>
+
+  <header>
+    <h1>Jeff Space</h1>
+    <p>Your anime-powered AI universe</p>
+  </header>
+
+  <div class="label">Products</div>
+  <div class="grid">
+
+    <div class="card" onclick="go('https://jarvis.jeffspace.in')">
+      🤖 JARVIS
+      <p>Your personal AI assistant</p>
+    </div>
+
+    <div class="card" onclick="go('https://musicify.jeffspace.in')">
+      🎧 Musicify
+      <p>Music experience</p>
+    </div>
+
+    <div class="card" onclick="go('https://studify.jeffspace.in')">
+      📚 Studify
+      <p>Learn complex topics simply</p>
+    </div>
+
+    <div class="card" onclick="go('https://conceptly.jeffspace.in')">
+      💡 Conceptly
+      <p>AI idea generator</p>
+    </div>
+
+    <div class="card" onclick="go('https://socialify.jeffspace.in')">
+      📣 Socialify
+      <p>Create social media content</p>
+    </div>
+
+  </div>
+
+  <div class="cta" onclick="go('https://jarvis.jeffspace.in')">
+    Enter JeffSpace
+  </div>
+
+  <footer>© jeffspace.in · 2020–2026</footer>
+</div>
+
+<script>
+const loader=document.getElementById("loader");
+
+/* LOADER */
+if(localStorage.getItem("visited")){
+  loader.classList.add("hidden");
+}else{
+  setTimeout(()=>{
+    loader.classList.add("hidden");
+    localStorage.setItem("visited","true");
+  },4000);
+}
+
+/* THEME */
 function toggleTheme(){
-document.body.classList.toggle("light");
-localStorage.setItem("theme",
-document.body.classList.contains("light")?"light":"dark");
+  document.body.classList.toggle("light");
+  localStorage.setItem(
+    "theme",
+    document.body.classList.contains("light")?"light":"dark"
+  );
 }
 if(localStorage.getItem("theme")==="light"){
-document.body.classList.add("light");
+  document.body.classList.add("light");
 }
 
 /* NAV */
-function go(url){window.open(url,"_blank");}
-</script>  </body>
+function go(url){
+  window.open(url,"_blank");
+}
+</script>
 
-</html>  
+</body>
+</html>

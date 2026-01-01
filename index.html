@@ -1,201 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JeffSpace // AI Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Space+Mono&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0a0a0c;
-            --accent: #00ff9d; /* Neon Green */
-            --accent-dim: rgba(0, 255, 157, 0.1);
-            --border: rgba(255, 255, 255, 0.08);
-            --text: #ffffff;
-            --muted: #80808a;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JeffSpace</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta name="theme-color" content="#0a0118" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            min-height: 100vh;
-        }
+<style>
+:root{
+  --bg:#060010;
+  --card:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.12);
+  --accent:#a855f7;
+  --accent2:#22d3ee;
+  --text:#ffffff;
+  --muted:#a1a1aa;
+}
 
-        /* Subtle Grid Background */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
-            background-size: 40px 40px;
-            z-index: -1;
-        }
+.light{
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --border:#e5e7eb;
+  --accent:#7c3aed;
+  --accent2:#0ea5e9;
+  --text:#0f172a;
+  --muted:#475569;
+}
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
+*{margin:0;padding:0;box-sizing:border-box}
 
-        /* Header */
-        header {
-            margin-bottom: 50px;
-            border-left: 4px solid var(--accent);
-            padding-left: 20px;
-        }
+body{
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-        .version {
-            font-family: 'Space Mono', monospace;
-            font-size: 12px;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+/* ANIME AURA BACKGROUND */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-40%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(168,85,247,.35), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(34,211,238,.25), transparent 50%);
+  animation:float 18s linear infinite;
+  z-index:-1;
+}
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            text-transform: uppercase;
-        }
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-6%)}
+  100%{transform:translateY(0)}
+}
 
-        /* Grid */
-        .grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+/* LOADER */
+#loader{
+  position:fixed;
+  inset:0;
+  background:#04000a;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:9999;
+}
 
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            padding: 24px;
-            text-decoration: none;
-            color: white;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: block;
-            position: relative;
-        }
+#loader.hidden{display:none}
 
-        .card:hover {
-            border-color: var(--accent);
-            background: var(--accent-dim);
-            transform: translateX(10px);
-        }
+.dots::after{
+  content:"";
+  animation:dots 1.5s infinite;
+}
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
+@keyframes dots{
+  0%{content:""}
+  33%{content:"."}
+  66%{content:".."}
+  100%{content:"..."}
+}
 
-        .card h3 {
-            font-family: 'Space Mono', monospace;
-            font-size: 1.1rem;
-            color: var(--accent);
-        }
+/* LAYOUT */
+.container{
+  max-width:520px;
+  margin:auto;
+  padding:28px 20px 60px;
+}
 
-        .card p {
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
+.brand{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
+}
 
-        .card-arrow {
-            font-size: 1.2rem;
-            opacity: 0;
-            transition: 0.3s;
-            color: var(--accent);
-        }
+.logo span{
+  color:var(--accent);
+  text-shadow:0 0 8px var(--accent);
+}
 
-        .card:hover .card-arrow {
-            opacity: 1;
-        }
+.toggle{
+  font-size:.8rem;
+  cursor:pointer;
+  opacity:.75;
+}
 
-        /* Footer */
-        footer {
-            margin-top: 60px;
-            text-align: center;
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            color: var(--muted);
-            letter-spacing: 1px;
-        }
+/* HERO */
+header h1{
+  font-size:2.2rem;
+  font-weight:700;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-        /* Loader logic (Optional - Remove if it causes issues) */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s;
-        }
-        .hidden { opacity: 0; pointer-events: none; }
+header p{color:var(--muted)}
 
-    </style>
+/* LABEL */
+.label{
+  margin:28px 0 14px;
+  font-size:.85rem;
+  font-weight:600;
+  color:var(--muted);
+  letter-spacing:.08em;
+}
+
+/* CARDS */
+.grid{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.card{
+  background:linear-gradient(180deg,var(--card),transparent);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:20px;
+  cursor:pointer;
+  transition:.35s;
+  backdrop-filter:blur(10px);
+}
+
+.card:hover{
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:
+    0 0 18px rgba(168,85,247,.35),
+    inset 0 0 12px rgba(255,255,255,.05);
+}
+
+.card p{
+  margin-top:6px;
+  font-size:.85rem;
+  color:var(--muted);
+}
+
+/* CTA */
+.cta{
+  margin-top:42px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  padding:16px;
+  border-radius:999px;
+  text-align:center;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 0 24px rgba(168,85,247,.5);
+}
+
+footer{
+  margin-top:42px;
+  text-align:center;
+  font-size:.75rem;
+  color:var(--muted);
+}
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <header>
-            <div class="version">V2.0.26 // SYSTEM_ACTIVE</div>
-            <h1>JEFFSPACE</h1>
-            <p style="color: var(--muted); font-size: 0.9rem;">Multi-Agent AI Protocol Hub</p>
-        </header>
+<!-- LOADER -->
+<div id="loader">
+  <h2>Welcome to the world of AI</h2>
+  <p>Created by Jeff ❤️</p>
+  <p>Initializing neural space<span class="dots"></span></p>
+</div>
 
-        <div class="grid">
-            <a href="https://jarvis.jeffspace.in" class="card">
-                <div class="card-header">
-                    <h3>01 // JARVIS</h3>
-                    <span class="card-arrow">→</span>
-                </div>
-                <p>Neural assistant for complex data processing and automation.</p>
-            </a>
+<div class="container">
 
-            <a href="https://musicify.jeffspace.in" class="card">
-                <div class="card-header">
-                    <h3>02 // MUSICIFY</h3>
-                    <span class="card-arrow">→</span>
-                </div>
-                <p>Sonic frequency optimization and immersive audio streams.</p>
-            </a>
+  <div class="brand">
+    <div class="logo">JS<span>•</span> JeffSpace</div>
+    <div class="toggle" onclick="toggleTheme()">Toggle theme</div>
+  </div>
 
-            <a href="https://studify.jeffspace.in" class="card">
-                <div class="card-header">
-                    <h3>03 // STUDIFY</h3>
-                    <span class="card-arrow">→</span>
-                </div>
-                <p>Deconstruct complex data packets into simplified knowledge nodes.</p>
-            </a>
+  <header>
+    <h1>Jeff Space</h1>
+    <p>Your anime-powered AI universe</p>
+  </header>
 
-            <a href="https://conceptly.jeffspace.in" class="card">
-                <div class="card-header">
-                    <h3>04 // CONCEPTLY</h3>
-                    <span class="card-arrow">→</span>
-                </div>
-                <p>Algorithmic intuition engine for next-gen creative concepts.</p>
-            </a>
+  <div class="label">Products</div>
+  <div class="grid">
 
-            <a href="https://socialify.jeffspace.in" class="card">
-                <div class="card-header">
-                    <h3>05 // SOCIALIFY</h3>
-                    <span class="card-arrow">→</span>
-                </div>
-                <p>Influence optimization and automated content broadcasting.</p>
-            </a>
-        </div>
-
-        <footer>
-            © 2026 JEFFSPACE_INTELLIGENCE | ALL RIGHTS RESERVED
-        </footer>
+    <div class="card" onclick="go('https://jarvis.jeffspace.in')">
+      🤖 JARVIS
+      <p>Your personal AI assistant</p>
     </div>
+
+    <div class="card" onclick="go('https://musicify.jeffspace.in')">
+      🎧 Musicify
+      <p>Music experience</p>
+    </div>
+
+    <div class="card" onclick="go('https://studify.jeffspace.in')">
+      📚 Studify
+      <p>Learn complex topics simply</p>
+    </div>
+
+    <div class="card" onclick="go('https://conceptly.jeffspace.in')">
+      💡 Conceptly
+      <p>AI idea generator</p>
+    </div>
+
+    <div class="card" onclick="go('https://socialify.jeffspace.in')">
+      📣 Socialify
+      <p>Create social media content</p>
+    </div>
+
+  </div>
+
+  <div class="cta" onclick="go('https://jarvis.jeffspace.in')">
+    Enter JeffSpace
+  </div>
+
+  <footer>© jeffspace.in · ©2020–2026</footer>
+</div>
+
+<script>
+const loader=document.getElementById("loader");
+
+/* LOADER */
+if(localStorage.getItem("visited")){
+  loader.classList.add("hidden");
+}else{
+  setTimeout(()=>{
+    loader.classList.add("hidden");
+    localStorage.setItem("visited","true");
+  },4000);
+}
+
+/* THEME */
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  localStorage.setItem(
+    "theme",
+    document.body.classList.contains("light")?"light":"dark"
+  );
+}
+if(localStorage.getItem("theme")==="light"){
+  document.body.classList.add("light");
+}
+
+/* NAV */
+function go(url){
+  window.open(url,"_blank");
+}
+</script>
 
 </body>
 </html>

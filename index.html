@@ -3,160 +3,141 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JeffSpace // Global Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <title>JeffSpace // AI Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0d0d0f;
-            --primary: #00ff9d; /* Neon Green / Matrix */
-            --secondary: #ff0055; /* Cyber Pink */
-            --panel: rgba(20, 20, 25, 0.9);
-            --border: rgba(0, 255, 157, 0.2);
-            --text: #e0e0e0;
+            --bg: #0a0a0c;
+            --accent: #00ff9d; /* Neon Green */
+            --accent-dim: rgba(0, 255, 157, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --muted: #80808a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Space Mono', monospace;
-            background: var(--bg);
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
+            line-height: 1.5;
+            min-height: 100vh;
         }
 
-        /* Background Grid Animation */
+        /* Subtle Grid Background */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background-image: 
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 40px 40px;
             z-index: -1;
-            mask-image: radial-gradient(circle, black, transparent 80%);
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
 
-        /* Glitch Header */
-        header { margin-bottom: 80px; text-align: left; position: relative; }
-        
-        .protocol-tag {
-            background: var(--secondary);
-            color: white;
-            padding: 4px 12px;
-            font-size: 10px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 10px;
+        /* Header */
+        header {
+            margin-bottom: 50px;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .version {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         h1 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: clamp(2rem, 6vw, 4.5rem);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
             text-transform: uppercase;
-            line-height: 1;
-            letter-spacing: -2px;
-            position: relative;
         }
 
-        h1::after {
-            content: "JEFFSPACE";
-            position: absolute;
-            left: 2px; top: 0;
-            color: var(--secondary);
-            z-index: -1;
-            opacity: 0.6;
-            animation: glitch 3s infinite;
-        }
-
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 2px); }
-            40% { transform: translate(-3px, -2px); }
-            60% { transform: translate(3px, 2px); }
-            80% { transform: translate(3px, -2px); }
-            100% { transform: translate(0); }
-        }
-
-        /* The Grid */
+        /* Grid */
         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2px; /* Border gap look */
-            background: var(--border);
-            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .card {
-            background: var(--bg);
-            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 24px;
             text-decoration: none;
             color: white;
-            transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
             position: relative;
-            overflow: hidden;
         }
 
         .card:hover {
-            background: var(--primary);
-            color: black;
+            border-color: var(--accent);
+            background: var(--accent-dim);
+            transform: translateX(10px);
         }
 
-        .card:hover p { color: rgba(0,0,0,0.7); }
-        .card:hover .card-num { color: rgba(0,0,0,0.1); }
-
-        .card-num {
-            position: absolute;
-            top: -10px;
-            right: 10px;
-            font-size: 5rem;
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.03);
-            font-family: 'Syncopate', sans-serif;
-            transition: 0.4s;
-        }
-
-        .card h3 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .card p {
-            font-size: 0.85rem;
-            color: var(--muted);
-            line-height: 1.6;
-            position: relative;
-            z-index: 2;
-            transition: 0.4s;
-        }
-
-        /* Footer Branding */
-        footer {
-            margin-top: 60px;
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.7rem;
-            opacity: 0.5;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            margin-bottom: 8px;
         }
 
-        .status-light {
-            height: 8px;
-            width: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 10px;
-            box-shadow: 0 0 10px var(--primary);
+        .card h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--accent);
         }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .card-arrow {
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: 0.3s;
+            color: var(--accent);
+        }
+
+        .card:hover .card-arrow {
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+
+        /* Loader logic (Optional - Remove if it causes issues) */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s;
+        }
+        .hidden { opacity: 0; pointer-events: none; }
 
     </style>
 </head>
@@ -164,49 +145,55 @@
 
     <div class="container">
         <header>
-            <div class="protocol-tag">ACCESS GRANTED</div>
+            <div class="version">V2.0.26 // SYSTEM_ACTIVE</div>
             <h1>JEFFSPACE</h1>
-            <p style="color: var(--primary); margin-top: 15px;">
-                <span class="status-light"></span> 
-                CORE MODULES LOADED // SYSTEM_VER_2.0.26
-            </p>
+            <p style="color: var(--muted); font-size: 0.9rem;">Multi-Agent AI Protocol Hub</p>
         </header>
 
         <div class="grid">
             <a href="https://jarvis.jeffspace.in" class="card">
-                <div class="card-num">01</div>
-                <h3>JARVIS</h3>
-                <p>Advanced neural automation. Deploying AI protocols for streamlined task execution and data analysis.</p>
+                <div class="card-header">
+                    <h3>01 // JARVIS</h3>
+                    <span class="card-arrow">→</span>
+                </div>
+                <p>Neural assistant for complex data processing and automation.</p>
             </a>
 
             <a href="https://musicify.jeffspace.in" class="card">
-                <div class="card-num">02</div>
-                <h3>MUSICIFY</h3>
-                <p>Sonic frequency adjustment. Curating high-fidelity audio streams for deep focus and immersion.</p>
+                <div class="card-header">
+                    <h3>02 // MUSICIFY</h3>
+                    <span class="card-arrow">→</span>
+                </div>
+                <p>Sonic frequency optimization and immersive audio streams.</p>
             </a>
 
             <a href="https://studify.jeffspace.in" class="card">
-                <div class="card-num">03</div>
-                <h3>STUDIFY</h3>
-                <p>Information deconstruction. Synthesizing complex data packets into high-retention learning nodes.</p>
+                <div class="card-header">
+                    <h3>03 // STUDIFY</h3>
+                    <span class="card-arrow">→</span>
+                </div>
+                <p>Deconstruct complex data packets into simplified knowledge nodes.</p>
             </a>
 
             <a href="https://conceptly.jeffspace.in" class="card">
-                <div class="card-num">04</div>
-                <h3>CONCEPTLY</h3>
-                <p>Creative ideation engine. Generating conceptual frameworks for next-gen projects and art.</p>
+                <div class="card-header">
+                    <h3>04 // CONCEPTLY</h3>
+                    <span class="card-arrow">→</span>
+                </div>
+                <p>Algorithmic intuition engine for next-gen creative concepts.</p>
             </a>
 
             <a href="https://socialify.jeffspace.in" class="card">
-                <div class="card-num">05</div>
-                <h3>SOCIALIFY</h3>
-                <p>Network influence optimization. Automating digital presence and broadcast-ready social content.</p>
+                <div class="card-header">
+                    <h3>05 // SOCIALIFY</h3>
+                    <span class="card-arrow">→</span>
+                </div>
+                <p>Influence optimization and automated content broadcasting.</p>
             </a>
         </div>
 
         <footer>
-            <div>© 2026 JEFFSPACE_INTELLIGENCE</div>
-            <div>[ CONNECTION: SECURE ]</div>
+            © 2026 JEFFSPACE_INTELLIGENCE | ALL RIGHTS RESERVED
         </footer>
     </div>
 

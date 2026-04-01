@@ -31,16 +31,10 @@
   --glass-reflect: linear-gradient(135deg, rgba(255,255,255,0.4), transparent);
 }
 
-* { 
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
-  -webkit-font-smoothing: antialiased; 
-  -moz-osx-font-smoothing: grayscale;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -48,7 +42,7 @@ body {
   line-height: 1.6;
 }
 
-/* VIDEO BACKGROUND & HIGH-END OVERLAY */
+/* CINEMATIC VIDEO BACKGROUND */
 #bg-video {
   position: fixed;
   top: 50%; left: 50%;
@@ -62,34 +56,23 @@ body {
 .overlay {
   position: fixed;
   inset: 0;
-  /* Creates a cinematic focus in the center */
-  background: radial-gradient(circle at center, transparent 20%, var(--bg) 100%);
+  background: radial-gradient(circle at center, transparent 10%, var(--bg) 100%);
   backdrop-filter: blur(2px);
   z-index: -1;
   pointer-events: none;
 }
 
-.light .overlay {
-  background: radial-gradient(circle at center, rgba(255,255,255,0.2), var(--bg));
-}
-
-/* LOADER */
+/* PRE-LOADER */
 #loader {
-  position: fixed;
-  inset: 0;
-  background: #04000a;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-  transition: opacity 0.5s ease;
+  position: fixed; inset: 0; background: #04000a;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  z-index: 99999; transition: opacity 0.6s ease;
 }
 #loader.hidden { opacity: 0; pointer-events: none; }
 .dots::after { content: ""; animation: dots 1.5s infinite; }
 @keyframes dots { 0% { content: ""; } 33% { content: "."; } 66% { content: ".."; } 100% { content: "..."; } }
 
-/* LAYOUT */
+/* LAYOUT & UI */
 .container {
   max-width: 540px;
   margin: auto;
@@ -98,173 +81,54 @@ body {
   z-index: 1;
 }
 
-.brand {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 48px;
-}
-
-.logo {
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo span { 
-  color: var(--accent); 
-  filter: drop-shadow(0 0 8px var(--accent));
-}
+.brand { display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px; }
+.logo { font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
+.logo span { color: var(--accent); filter: drop-shadow(0 0 8px var(--accent)); }
 
 .toggle {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  transition: 0.3s;
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700;
+  cursor: pointer; padding: 8px 14px; border-radius: 10px; background: var(--card);
+  border: 1px solid var(--border); transition: 0.3s;
 }
 .toggle:hover { border-color: var(--accent); }
 
-/* HERO */
-header { margin-bottom: 40px; }
 header h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 1.1;
-  background: linear-gradient(to bottom right, #fff 30%, var(--muted));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 12px;
+  font-size: 3rem; font-weight: 800; letter-spacing: -0.05em; line-height: 1.1;
+  background: linear-gradient(to bottom right, #fff 40%, var(--muted));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px;
 }
-.light header h1 {
-  background: linear-gradient(to right, var(--text), var(--accent));
-  -webkit-background-clip: text;
-}
-header p { 
-    color: var(--muted); 
-    font-size: 1rem;
-    font-weight: 500;
-}
+.light header h1 { background: linear-gradient(to right, var(--text), var(--accent)); -webkit-background-clip: text; }
 
-/* CARDS */
-.label {
-  margin-bottom: 20px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--accent);
-  letter-spacing: 0.2em;
-  opacity: 0.9;
-}
-
+.label { margin-bottom: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--accent); letter-spacing: 0.2em; }
 .grid { display: flex; flex-direction: column; gap: 16px; }
 
 .card {
-  background: var(--card);
-  background-image: var(--glass-reflect);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 24px;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  position: relative;
-  overflow: hidden;
+  background: var(--card); background-image: var(--glass-reflect);
+  border: 1px solid var(--border); border-radius: 24px; padding: 24px;
+  cursor: pointer; transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
 }
+.card:hover { transform: translateY(-6px) scale(1.02); border-color: rgba(168, 85, 247, 0.5); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.card strong { display: block; font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+.card p { font-size: 0.9rem; color: var(--muted); }
 
-.card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-    transform: translateX(-100%);
-    transition: 0.5s;
-}
+/* DEVELOPER CARD PULSE EFFECT */
+.chat-card { border: 1px solid rgba(34, 211, 238, 0.3); }
+.chat-card:hover { border-color: var(--accent2); }
 
-.card:hover {
-  transform: translateY(-6px) scale(1.02);
-  border-color: rgba(168, 85, 247, 0.4);
-  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
-}
-
-.card:hover::before { transform: translateX(100%); }
-
-.card strong {
-  display: block;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.card p {
-  font-size: 0.9rem;
-  color: var(--muted);
-  font-weight: 400;
-}
-
-/* BUY ME A COFFEE - PREMIUM BUTTON */
 .coffee { margin-top: 54px; text-align: center; }
 .coffee a {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 18px 36px;
-  border-radius: 100px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-decoration: none;
-  color: #000;
-  background: #fff;
-  transition: all 0.4s;
-  box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+  display: inline-flex; padding: 18px 36px; border-radius: 100px;
+  font-size: 0.95rem; font-weight: 700; text-decoration: none;
+  color: #000; background: #fff; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
-.coffee a:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 20px 40px rgba(255,255,255,0.2);
-  background: #f0f0f0;
-}
+.coffee a:hover { transform: translateY(-3px); background: #f0f0f0; }
 
-/* VIEWER SYSTEM */
-#viewer {
-  position: fixed; inset: 0;
-  background: #000; display: none;
-  flex-direction: column; z-index: 100000;
-}
-.viewer-bar {
-  padding: 16px 24px;
-  display: flex; align-items: center;
-  justify-content: space-between;
-  background: #0a0a0a;
-  border-bottom: 1px solid #1a1a1a;
-}
-.viewer-bar button {
-  background: var(--accent);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
+#viewer { position: fixed; inset: 0; background: #000; display: none; flex-direction: column; z-index: 100000; }
+.viewer-bar { padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; background: #0a0a0a; border-bottom: 1px solid #1a1a1a; }
+.viewer-bar button { background: var(--accent); color: white; border: none; padding: 8px 18px; border-radius: 10px; font-weight: 700; cursor: pointer; }
 
-footer {
-  margin-top: 60px;
-  text-align: center;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--muted);
-  letter-spacing: 0.05em;
-}
+footer { margin-top: 60px; text-align: center; font-size: 0.8rem; color: var(--muted); opacity: 0.6; }
 </style>
 </head>
 
@@ -276,116 +140,106 @@ footer {
 <div class="overlay"></div>
 
 <div id="loader">
-  <h2 style="font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px;">Welcome to the Universe</h2>
-  <p style="opacity: 0.6;">Created by Jeff ❤️</p>
-  <p style="font-size: 0.8rem; margin-top: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">
-    Initializing space<span class="dots"></span>
-  </p>
+  <h2 style="font-weight: 800; letter-spacing: -0.02em;">Accessing Space</h2>
+  <p style="opacity: 0.6; margin-top: 4px;">Created by Jeff ❤️</p>
+  <p style="font-size: 0.8rem; margin-top: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">Initializing<span class="dots"></span></p>
 </div>
 
 <div id="viewer">
   <div class="viewer-bar">
-    <button onclick="closeViewer()">← Back to Space</button>
-    <span style="font-weight: 700; font-size: 0.9rem;">JeffSpace Premium Experience</span>
+    <button onclick="closeViewer()">← Close</button>
+    <span style="color:white; font-size: 0.9rem; font-weight: 600;">JeffSpace Experience</span>
   </div>
-  <iframe id="viewerFrame" src=""></iframe>
+  <iframe id="viewerFrame" style="flex:1; border:none;" src=""></iframe>
 </div>
 
 <div class="container">
-
   <div class="brand">
     <div class="logo">JS<span>•</span> JeffSpace</div>
     <div class="toggle" onclick="toggleTheme()">Appearance</div>
   </div>
 
   <header>
-    <h1>The Future <br>is Intelligent.</h1>
-    <p>Curated AI products designed by Jeff♥️</p>
+    <h1>Modern AI <br>Engineering.</h1>
+    <p>Premium digital tools curated by Jeff♥️</p>
   </header>
 
   <div class="label">ecosystem</div>
   <div class="grid">
-
     <div class="card" onclick="openInViewer('https://watchify.jeffspace.in')">
       <strong>▶️ Watchify</strong>
       <p>Distraction-free YouTube viewer</p>
     </div>
-
     <div class="card" onclick="openInViewer('https://tfeify.jeffspace.in')">
       <strong>🌸 TFEify</strong>
-      <p>Curated tools & resources for everyone</p>
+      <p>Curated tools & resources</p>
     </div>
-
     <div class="card" onclick="openInViewer('https://jarvis.jeffspace.in')">
       <strong>🤖 JARVIS</strong>
       <p>Your personal AI assistant</p>
     </div>
-
     <div class="card" onclick="openInViewer('https://musicify.jeffspace.in')">
       <strong>🎧 Musicify</strong>
       <p>Next-gen music experience</p>
     </div>
-
     <div class="card" onclick="openInViewer('https://studify.jeffspace.in')">
       <strong>📚 Studify</strong>
       <p>Learn complex topics simply</p>
     </div>
 
-    <div class="card" onclick="openInViewer('https://conceptly.jeffspace.in')">
-      <strong>💡 Conceptly</strong>
-      <p>AI-powered idea generator</p>
+    <div class="card chat-card" onclick="toggleChat()">
+      <strong>💬 Talk to Developer</strong>
+      <p>Secure, anonymous live chat with Jeff</p>
     </div>
-
-    <div class="card" onclick="openInViewer('https://socialify.jeffspace.in')">
-      <strong>📣 Socialify</strong>
-      <p>Create viral social media content</p>
-    </div>
-
   </div>
 
   <div class="coffee">
-    <a href="https://buymeacoffee.com/jeffrdj" target="_blank">
-      ☕ Support the Creator
-    </a>
+    <a href="https://buymeacoffee.com/jeffrdj" target="_blank">☕ Support the Vision</a>
   </div>
 
-  <footer>© JEFFSPACE.IN · 2020–2026</footer>
-
+  <footer>© JEFFSPACE.IN · 2026</footer>
 </div>
 
-<script>
-const loader = document.getElementById("loader");
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69ccc0586066d01c354d036a/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
 
-/* LOADER LOGIC */
-if(localStorage.getItem("visited")){
-  loader.classList.add("hidden");
-} else {
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      loader.classList.add("hidden");
-      localStorage.setItem("visited", "true");
-    }, 2500);
-  });
+// Function to maximize the chat widget when the card is clicked
+function toggleChat() {
+    try {
+        Tawk_API.maximize();
+    } catch(e) {
+        alert("Chat is still loading, please try again in a second!");
+    }
 }
+</script>
 
-/* THEME ENGINE */
+<script>
+/* LOADER HANDLING */
+const loader = document.getElementById("loader");
+window.addEventListener('load', () => {
+    setTimeout(() => { 
+        loader.classList.add("hidden"); 
+    }, 2200);
+});
+
+/* THEME TOGGLE */
 function toggleTheme(){
   document.body.classList.toggle("light");
-  localStorage.setItem(
-    "theme",
-    document.body.classList.contains("light") ? "light" : "dark"
-  );
 }
 
-if(localStorage.getItem("theme") === "light"){
-  document.body.classList.add("light");
-}
-
-/* VIEWER ENGINE */
+/* VIEWER SYSTEM */
 function openInViewer(url){
   const viewer = document.getElementById("viewer");
   const frame = document.getElementById("viewerFrame");
-  document.body.style.overflow = "hidden"; // Prevent scrolling background
+  document.body.style.overflow = "hidden";
   frame.src = url;
   viewer.style.display = "flex";
 }

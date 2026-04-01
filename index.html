@@ -3,211 +3,267 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>JeffSpace</title>
+<title>JeffSpace | AI Universe</title>
 
 <meta name="theme-color" content="#0a0118" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#060010;
-  --card:rgba(255,255,255,0.06);
-  --border:rgba(255,255,255,0.12);
-  --accent:#a855f7;
-  --accent2:#22d3ee;
-  --text:#ffffff;
-  --muted:#a1a1aa;
-}
-.light{
-  --bg:#f6f7fb;
-  --card:rgba(255,255,255,0.8);
-  --border:#e5e7eb;
-  --accent:#7c3aed;
-  --accent2:#0ea5e9;
-  --text:#0f172a;
-  --muted:#475569;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:Inter,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
+:root {
+  --bg: #060010;
+  --card: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #a855f7;
+  --accent2: #22d3ee;
+  --text: #ffffff;
+  --muted: #a1a1aa;
+  --glass-reflect: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
 }
 
-/* VIDEO BACKGROUND */
+.light {
+  --bg: #f8fafc;
+  --card: rgba(255, 255, 255, 0.7);
+  --border: rgba(0, 0, 0, 0.06);
+  --accent: #7c3aed;
+  --accent2: #0ea5e9;
+  --text: #0f172a;
+  --muted: #64748b;
+  --glass-reflect: linear-gradient(135deg, rgba(255,255,255,0.4), transparent);
+}
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* VIDEO BACKGROUND & HIGH-END OVERLAY */
 #bg-video {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
+  top: 50%; left: 50%;
+  min-width: 100%; min-height: 100%;
   z-index: -2;
-  transform: translateX(-50%) translateY(-50%);
+  transform: translate(-50%, -50%);
   object-fit: cover;
+  filter: brightness(0.7) contrast(1.1);
 }
 
-/* DARK OVERLAY FOR READABILITY */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  /* Creates a cinematic focus in the center */
+  background: radial-gradient(circle at center, transparent 20%, var(--bg) 100%);
+  backdrop-filter: blur(2px);
   z-index: -1;
   pointer-events: none;
 }
 
 .light .overlay {
-  background: rgba(255, 255, 255, 0.85); /* Bright overlay for light mode */
-}
-
-.light #bg-video {
-  filter: grayscale(0.5) brightness(1.2);
-  opacity: 0.3;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.2), var(--bg));
 }
 
 /* LOADER */
-#loader{
-  position:fixed;
-  inset:0;
-  background:#04000a;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  z-index:9999;
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #04000a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  transition: opacity 0.5s ease;
 }
-#loader.hidden{display:none}
-.dots::after{content:"";animation:dots 1.5s infinite}
-@keyframes dots{
-  0%{content:""}
-  33%{content:"."}
-  66%{content:".."}
-  100%{content:"..."}
-}
+#loader.hidden { opacity: 0; pointer-events: none; }
+.dots::after { content: ""; animation: dots 1.5s infinite; }
+@keyframes dots { 0% { content: ""; } 33% { content: "."; } 66% { content: ".."; } 100% { content: "..."; } }
 
 /* LAYOUT */
-.container{
-  max-width:520px;
-  margin:auto;
-  padding:28px 20px 60px;
+.container {
+  max-width: 540px;
+  margin: auto;
+  padding: 40px 24px 80px;
   position: relative;
   z-index: 1;
 }
-.brand{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:28px;
+
+.brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
 }
-.logo span{
-  color:var(--accent);
-  text-shadow:0 0 8px var(--accent);
+
+.logo {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.toggle{font-size:.8rem;cursor:pointer;opacity:.75}
+
+.logo span { 
+  color: var(--accent); 
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+
+.toggle {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  transition: 0.3s;
+}
+.toggle:hover { border-color: var(--accent); }
 
 /* HERO */
-header h1{
-  font-size:2.2rem;
-  font-weight:700;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+header { margin-bottom: 40px; }
+header h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  background: linear-gradient(to bottom right, #fff 30%, var(--muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
 }
-header p{color:var(--muted)}
-
-/* LABEL */
-.label{
-  margin:28px 0 14px;
-  font-size:.85rem;
-  font-weight:600;
-  color:var(--muted);
-  letter-spacing:.08em;
+.light header h1 {
+  background: linear-gradient(to right, var(--text), var(--accent));
+  -webkit-background-clip: text;
+}
+header p { 
+    color: var(--muted); 
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 /* CARDS */
-.grid{display:flex;flex-direction:column;gap:16px}
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:20px;
-  cursor:pointer;
-  transition:.35s;
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-.card:hover{
-  transform:translateY(-4px) scale(1.01);
-  box-shadow:0 0 18px rgba(168,85,247,.35),
-             inset 0 0 12px rgba(255,255,255,.05);
-}
-.card p{
-  margin-top:6px;
-  font-size:.85rem;
-  color:var(--muted);
+.label {
+  margin-bottom: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  opacity: 0.9;
 }
 
-/* BUY ME A COFFEE */
-.coffee{
-  margin-top:36px;
-  text-align:center;
-}
-.coffee a{
-  display:inline-block;
-  padding:14px 26px;
-  border-radius:999px;
-  font-size:.85rem;
-  font-weight:600;
-  text-decoration:none;
-  color:#0f172a;
-  background:linear-gradient(90deg,#fbbf24,#f59e0b);
-  box-shadow:0 0 22px rgba(245,158,11,.5);
-  transition:.3s;
-}
-.coffee a:hover{
-  transform:translateY(-2px);
-  box-shadow:0 0 32px rgba(245,158,11,.8);
+.grid { display: flex; flex-direction: column; gap: 16px; }
+
+.card {
+  background: var(--card);
+  background-image: var(--glass-reflect);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
 }
 
-/* FOOTER */
-footer{
-  margin-top:28px;
-  text-align:center;
-  font-size:.75rem;
-  color:var(--muted);
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transform: translateX(-100%);
+    transition: 0.5s;
 }
 
-/* IN-PAGE VIEWER */
-#viewer{
-  position:fixed;
-  inset:0;
-  background:#050008;
-  display:none;
-  flex-direction:column;
-  z-index:99999;
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
 }
-.viewer-bar{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px 16px;
-  border-bottom:1px solid var(--border);
+
+.card:hover::before { transform: translateX(100%); }
+
+.card strong {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
 }
-.viewer-bar button{
-  background:none;
-  border:none;
-  color:var(--accent);
-  font-size:.85rem;
-  cursor:pointer;
+
+.card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 400;
 }
-#viewer iframe{
-  flex:1;
-  width:100%;
-  border:none;
+
+/* BUY ME A COFFEE - PREMIUM BUTTON */
+.coffee { margin-top: 54px; text-align: center; }
+.coffee a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 36px;
+  border-radius: 100px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #000;
+  background: #fff;
+  transition: all 0.4s;
+  box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+}
+.coffee a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(255,255,255,0.2);
+  background: #f0f0f0;
+}
+
+/* VIEWER SYSTEM */
+#viewer {
+  position: fixed; inset: 0;
+  background: #000; display: none;
+  flex-direction: column; z-index: 100000;
+}
+.viewer-bar {
+  padding: 16px 24px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  background: #0a0a0a;
+  border-bottom: 1px solid #1a1a1a;
+}
+.viewer-bar button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+footer {
+  margin-top: 60px;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.05em;
 }
 </style>
 </head>
@@ -220,118 +276,126 @@ footer{
 <div class="overlay"></div>
 
 <div id="loader">
-  <h2>Welcome to the world of AI</h2>
-  <p>Created by Jeff ❤️</p>
-  <p>Initializing space<span class="dots"></span></p>
+  <h2 style="font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px;">Welcome to the Universe</h2>
+  <p style="opacity: 0.6;">Created by Jeff ❤️</p>
+  <p style="font-size: 0.8rem; margin-top: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">
+    Initializing space<span class="dots"></span>
+  </p>
 </div>
 
 <div id="viewer">
   <div class="viewer-bar">
-    <button onclick="closeViewer()">← Back</button>
-    <span>Made by Jeff♥️</span>
+    <button onclick="closeViewer()">← Back to Space</button>
+    <span style="font-weight: 700; font-size: 0.9rem;">JeffSpace Premium Experience</span>
   </div>
-  <iframe id="viewerFrame"></iframe>
+  <iframe id="viewerFrame" src=""></iframe>
 </div>
 
 <div class="container">
 
   <div class="brand">
     <div class="logo">JS<span>•</span> JeffSpace</div>
-    <div class="toggle" onclick="toggleTheme()">Toggle theme</div>
+    <div class="toggle" onclick="toggleTheme()">Appearance</div>
   </div>
 
   <header>
-    <h1>Jeff Space</h1>
-    <p>Made by Jeff♥️</p>
+    <h1>The Future <br>is Intelligent.</h1>
+    <p>Curated AI products designed by Jeff♥️</p>
   </header>
 
-  <div class="label">Products</div>
+  <div class="label">ecosystem</div>
   <div class="grid">
 
     <div class="card" onclick="openInViewer('https://watchify.jeffspace.in')">
-      ▶️ Watchify
+      <strong>▶️ Watchify</strong>
       <p>Distraction-free YouTube viewer</p>
     </div>
 
     <div class="card" onclick="openInViewer('https://tfeify.jeffspace.in')">
-      🌸 TFEify
+      <strong>🌸 TFEify</strong>
       <p>Curated tools & resources for everyone</p>
     </div>
 
     <div class="card" onclick="openInViewer('https://jarvis.jeffspace.in')">
-      🤖 JARVIS
+      <strong>🤖 JARVIS</strong>
       <p>Your personal AI assistant</p>
     </div>
 
     <div class="card" onclick="openInViewer('https://musicify.jeffspace.in')">
-      🎧 Musicify
-      <p>Music experience</p>
+      <strong>🎧 Musicify</strong>
+      <p>Next-gen music experience</p>
     </div>
 
     <div class="card" onclick="openInViewer('https://studify.jeffspace.in')">
-      📚 Studify
+      <strong>📚 Studify</strong>
       <p>Learn complex topics simply</p>
     </div>
 
     <div class="card" onclick="openInViewer('https://conceptly.jeffspace.in')">
-      💡 Conceptly
-      <p>AI idea generator</p>
+      <strong>💡 Conceptly</strong>
+      <p>AI-powered idea generator</p>
     </div>
 
     <div class="card" onclick="openInViewer('https://socialify.jeffspace.in')">
-      📣 Socialify
-      <p>Create social media content</p>
+      <strong>📣 Socialify</strong>
+      <p>Create viral social media content</p>
     </div>
 
   </div>
 
   <div class="coffee">
     <a href="https://buymeacoffee.com/jeffrdj" target="_blank">
-      ☕ Buy me a coffee
+      ☕ Support the Creator
     </a>
   </div>
 
-  <footer>© jeffspace.in · 2020–2026</footer>
+  <footer>© JEFFSPACE.IN · 2020–2026</footer>
 
 </div>
 
 <script>
-const loader=document.getElementById("loader");
+const loader = document.getElementById("loader");
 
-/* LOADER */
+/* LOADER LOGIC */
 if(localStorage.getItem("visited")){
   loader.classList.add("hidden");
-}else{
-  setTimeout(()=>{
-    loader.classList.add("hidden");
-    localStorage.setItem("visited","true");
-  },4000);
+} else {
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      loader.classList.add("hidden");
+      localStorage.setItem("visited", "true");
+    }, 2500);
+  });
 }
 
-/* THEME */
+/* THEME ENGINE */
 function toggleTheme(){
   document.body.classList.toggle("light");
   localStorage.setItem(
     "theme",
-    document.body.classList.contains("light")?"light":"dark"
+    document.body.classList.contains("light") ? "light" : "dark"
   );
 }
-if(localStorage.getItem("theme")==="light"){
+
+if(localStorage.getItem("theme") === "light"){
   document.body.classList.add("light");
 }
 
-/* VIEWER */
+/* VIEWER ENGINE */
 function openInViewer(url){
-  const viewer=document.getElementById("viewer");
-  const frame=document.getElementById("viewerFrame");
-  frame.src=url;
-  viewer.style.display="flex";
+  const viewer = document.getElementById("viewer");
+  const frame = document.getElementById("viewerFrame");
+  document.body.style.overflow = "hidden"; // Prevent scrolling background
+  frame.src = url;
+  viewer.style.display = "flex";
 }
+
 function closeViewer(){
-  const viewer=document.getElementById("viewer");
-  const frame=document.getElementById("viewerFrame");
-  frame.src="";
-  viewer.style.display="none";
+  const viewer = document.getElementById("viewer");
+  const frame = document.getElementById("viewerFrame");
+  document.body.style.overflow = "auto";
+  frame.src = "";
+  viewer.style.display = "none";
 }
 </script>
 
